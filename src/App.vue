@@ -1,5 +1,6 @@
 <template>
-  <el-button type="success">成功按钮</el-button>
+  <!-- 路由出口 -->
+  <router-view></router-view>
 </template>
 
 <script>
