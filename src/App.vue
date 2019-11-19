@@ -1,20 +1,11 @@
 <template>
-  <div id="app">
-    黑马面面
-  </div>
-  <!-- 路由出口 -->
-  <router-view></router-view>
+  <el-button type="success">成功按钮</el-button>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  export default {
+    name: 'app'
   }
-}
 </script>
 
 <style>

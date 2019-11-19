@@ -14,4 +14,5 @@ Vue.use (ElementUI);
 // 创建Vue实例并挂载app的div上
 new Vue({
   render: h => h(App),
+  router
 }).$mount('#app')
