@@ -312,9 +312,22 @@ export default {
         window.console.log(res);
       });
 
+      let time = 60;
       // 禁用按钮 开启定时器
-
-
+      this.isDisabled = true;
+      const interId = setInterval(()=>{
+        // 递减
+        time--;
+        // 修改页面
+        this.btnTxt = `${time}S后再次获取`;
+        if(time == 0){
+          clearInterval(interId);
+          // 重新启用按钮
+          this.isDisabled = false;
+          // 还原文本
+          this.btnTxt = '获取短信验证码'
+        }
+      },100);
     },
     // 用户注册
     registerUser(){
