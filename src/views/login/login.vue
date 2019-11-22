@@ -60,7 +60,7 @@
     <!-- 注册对话框 -->
     <el-dialog title="用户注册" class="reg-dialog" :visible.sync="showReg">
       <!-- 表单 -->
-      <el-form :model="registerForm" >
+      <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
         <!-- 头像 -->
         <el-form-item label="头像" :label-width="formLabelWidth">
           <el-upload
@@ -76,23 +76,23 @@
           </el-upload>
         </el-form-item>
         <!-- 昵称 -->
-        <el-form-item label="昵称" :label-width="formLabelWidth">
+        <el-form-item label="昵称" :label-width="formLabelWidth" prop="name">
           <el-input v-model="registerForm.name" autocomplete="off"></el-input>
         </el-form-item>
         <!-- 邮箱 -->
-        <el-form-item label="邮箱" :label-width="formLabelWidth">
+        <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
           <el-input v-model="registerForm.email" autocomplete="off"></el-input>
         </el-form-item>
         <!-- 手机 -->
-        <el-form-item label="手机" :label-width="formLabelWidth">
+        <el-form-item label="手机" :label-width="formLabelWidth" prop="phone">
           <el-input v-model="registerForm.phone" autocomplete="off"></el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item label="密码" :label-width="formLabelWidth">
+        <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
           <el-input v-model="registerForm.password" autocomplete="off"></el-input>
         </el-form-item>
         <!-- 图形码 -->
-        <el-form-item label="图形码" :label-width="formLabelWidth">
+        <el-form-item label="图形码" :label-width="formLabelWidth" prop="code">
           <el-row>
             <el-col :span="16">
               <el-input v-model="registerForm.code" autocomplete="off"></el-input>
@@ -103,7 +103,7 @@
           </el-row>
         </el-form-item>
         <!-- 验证码 -->
-        <el-form-item label="验证码" :label-width="formLabelWidth">
+        <el-form-item label="验证码" :label-width="formLabelWidth" prop="rcode">
           <el-row>
             <el-col :span="16">
               <el-input v-model="registerForm.rcode" autocomplete="off"></el-input>
@@ -122,7 +122,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showReg = false">取 消</el-button>
-        <el-button type="primary" @click="registerUser">确 定</el-button>
+        <el-button type="primary" @click="registerUser">注 册</el-button>
       </div>
     </el-dialog>
   </div>
@@ -132,7 +132,12 @@
 <script>
 /* js业务逻辑 */
 // 导入 axios
-import axios from "axios";
+// import axios from "axios";
+// 已经全部抽取为方法了，不再需要axios
+
+// 导入抽取的api 方法;
+import { login, register, sendsms } from "../../../api/api.js";
+
 export default {
   name: "login",
   //数据
@@ -141,7 +146,7 @@ export default {
     const checkPhone = (rule, value, callback) => {
       if (!value) {
         // 空
-        callback(new Error("老铁，手机不能为空哦"));
+        callback(new Error("手机不能为空"));
       } else {
         // 非空 验证格式
         // callback();
@@ -152,7 +157,25 @@ export default {
           callback();
         } else {
           // 不符合
-          callback(new Error("手机号格式不对哦"));
+          callback(new Error("手机格式不对,请正确输入手机格式!"));
+        }
+      }
+    };
+    // 验证 邮箱
+    const checkEmail = (rules, value, callback) => {
+      // value是值
+      if (!value) {
+        callback(new Error("邮箱不能为空"));
+      } else {
+        // 格式验证
+        const reg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+        // 验证
+        if (reg.test(value)) {
+          // 对的
+          callback();
+        } else {
+          // 错的
+          callback(new Error("邮箱格式不对,请正确输入邮箱格式!"));
         }
       }
     };
@@ -179,7 +202,7 @@ export default {
           { min: 4, max: 4, message: "验证码只有4位哦，不要写错了噢" }
         ]
       },
-      
+
       // 验证码地址
       captchaSrc: "http://183.237.67.218:3002/captcha?type=login",
       // 是否勾选
@@ -198,6 +221,19 @@ export default {
         rcode: "",
         // 图形验证码
         code: ""
+      },
+      // 注册表单规则
+      registerRules: {
+        touxiang: [{ required: true }],
+        name: [{ required: true, message: "姓名不能为空" }],
+        email: [{ required: true, validator: checkEmail }],
+        phone: [{ required: true, validator: checkPhone }],
+        password: [
+          { required: true, message: "密码不能为空" },
+          { min: 6, max: 12, message: "密码的强度不够" }
+        ],
+        code: [{ required: true, message: "请输入验证码" }],
+        rcode: [{ required: true, message: "请输入手机验证码" }]
       },
       // 文字宽度
       formLabelWidth: "67px",
@@ -228,15 +264,20 @@ export default {
           // 验证成功
           // alert("submit!");
           // 接口调用
-          axios({
-            url: "http://183.237.67.218:3002/login",
-            method: "post",
-            data: {
-              phone: this.loginForm.phone,
-              password: this.loginForm.password,
-              code: this.loginForm.captcha
-            },
-            withCredentials: true
+          // axios({
+          //   url: "http://183.237.67.218:3002/login",
+          //   method: "post",
+          //   data: {
+          //     phone: this.loginForm.phone,
+          //     password: this.loginForm.password,
+          //     code: this.loginForm.captcha
+          //   },
+          //   withCredentials: true
+          // })
+          login({
+            phone: this.loginForm.phone,
+            password: this.loginForm.password,
+            code: this.loginForm.captcha
           }).then(res => {
             // window.console.log(res);
             if (res.data.code == 200) {
@@ -300,15 +341,19 @@ export default {
         return;
       }
       // 说明 格式 内容都有
-      axios({
-        url: "http://183.237.67.218:3002/sendsms",
-        method: "post",
-        data: {
-          code: this.registerForm.code,
-          phone: this.registerForm.phone
-        },
-        // 跨域携带cookie
-        withCredentials: true
+      // axios({
+      //   url: "http://183.237.67.218:3002/sendsms",
+      //   method: "post",
+      //   data: {
+      //     code: this.registerForm.code,
+      //     phone: this.registerForm.phone
+      //   },
+      //   // 跨域携带cookie
+      //   withCredentials: true
+      // })
+      sendsms({
+        code: this.registerForm.code,
+        phone: this.registerForm.phone
       }).then(res => {
         window.console.log(res);
       });
@@ -316,35 +361,53 @@ export default {
       let time = 60;
       // 禁用按钮 开启定时器
       this.isDisabled = true;
-      const interId = setInterval(()=>{
+      const interId = setInterval(() => {
         // 递减
         time--;
         // 修改页面
         this.btnTxt = `${time}S后再次获取`;
-        if(time == 0){
+        if (time == 0) {
           clearInterval(interId);
           // 重新启用按钮
           this.isDisabled = false;
           // 还原文本
-          this.btnTxt = '获取短信验证码'
+          this.btnTxt = "获取短信验证码";
         }
-      },100);
+      }, 100);
     },
     // 用户注册
-    registerUser(){
-      axios({
-        url:'http://183.237.67.218:3002/register',
-        method:'post',
-        data:{
-          avatar:this.registerForm.avatar,
-          email:this.registerForm.email,
-          password:this.registerForm.password,
-          phone:this.registerForm.phone,
-          rcode:this.registerForm.rcode
-        },
-        withCredentials:true
-      }).then(res=>{
-        window.console.log(res);
+    registerUser() {
+      this.$refs.registerForm.validate(valid => {
+        if (valid) {
+          // window.alert("ok1");
+          // axios({
+          //   url:'http://183.237.67.218:3002/register',
+          //   method:'post',
+          //   data:{
+          //     avatar:this.registerForm.avatar,
+          //     email:this.registerForm.email,
+          //     password:this.registerForm.password,
+          //     phone:this.registerForm.phone,
+          //     rcode:this.registerForm.rcode
+          //   },
+          //   withCredentials:true
+          // })
+          register({
+            avatar: this.registerForm.avatar,
+            email: this.registerForm.email,
+            password: this.registerForm.password,
+            phone: this.registerForm.phone,
+            rcode: this.registerForm.rcode
+          }).then(res => {
+            window.console.log(res);
+            this.$message.success("注册成功!");
+          });
+        }else{
+          // 验证失败
+          window.console.log("error submit!!");
+          this.$message.warning("注册失败!");
+          return false;
+        }
       });
     }
   }
