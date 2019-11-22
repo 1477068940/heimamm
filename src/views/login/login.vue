@@ -60,7 +60,7 @@
     <!-- 注册对话框 -->
     <el-dialog title="用户注册" class="reg-dialog" :visible.sync="showReg">
       <!-- 表单 -->
-      <el-form :model="registerForm">
+      <el-form :model="registerForm" >
         <!-- 头像 -->
         <el-form-item label="头像" :label-width="formLabelWidth">
           <el-upload
@@ -179,6 +179,7 @@ export default {
           { min: 4, max: 4, message: "验证码只有4位哦，不要写错了噢" }
         ]
       },
+      
       // 验证码地址
       captchaSrc: "http://183.237.67.218:3002/captcha?type=login",
       // 是否勾选
