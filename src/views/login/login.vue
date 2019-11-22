@@ -173,13 +173,12 @@ export default {
     },
     // 修复值即可
     // 很有可能重复  随机数
-    changeCaptcha(){
+    changeCaptcha() {
       // this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login&${Math.random()}`;
       // 绝对不会重复  时间戳
       this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login&${Date.now()}`;
       // this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login`
     }
-
   }
 };
 </script>
