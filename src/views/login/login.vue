@@ -300,6 +300,7 @@ export default {
       // 绝对不会重复  时间戳
       this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login&${Date.now()}`;
       // this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login`
+<<<<<<< HEAD
     },
     // 图片上传的方法
     // res 服务器返回的值
@@ -409,6 +410,8 @@ export default {
           return false;
         }
       });
+=======
+>>>>>>> index
     }
   }
 };
