@@ -9,9 +9,9 @@
         <span class="title">黑马面面</span>
       </div>
       <div class="right">
-        <img class="avatar" src="../../assets/timg (2).jpg" alt />
-        <span class="name">狮子头</span>
-        <el-button class="logout" size="mini" type="primary">退出</el-button>
+        <img class="avatar" :src="avatar" alt />
+        <span class="name">{{name}}</span>
+        <el-button class="logout" @click="logout" size="mini" type="primary">退出</el-button>
       </div>
     </el-header>
     <el-container>
@@ -54,14 +54,69 @@
 </template>
 
 <script>
+// 导入 获取token的函数
+import { getToken,removeToken } from '../../utils/token.js';
+// 导入 用户信息方法
+import { userInfo } from "../../api/api.js"
 export default {
   name: "index",
   data() {
     return {
       // 是否折叠
-      isCollapse: false
+      isCollapse: false,
+      name:"",
+      avatar:""
     };
-  }
+  },
+  // 生命周期钩子
+  beforeCreate() {
+    // 判断token是否存在
+    const token = getToken();
+    if(!token){
+      // 提示用户
+      this.$message.error("未登录,请先登录!");
+      // 不存在 去登录页
+      this.$router.push("/login");
+    }
+  },
+  // 创建钩子
+  created() {
+    userInfo().then(res=>{
+      // if(res.data.code===0){
+      //   // token有问题
+      //   this.$message.error("伪造token,你牛逼!");
+      //   // 删除token
+      //   removeToken();
+      //   // 去登录页
+      //   this.$router.push("/login");
+      //   return;
+      // }
+      // window.console.log(res);
+      // 保存到data中
+      this.avatar = `http://127.0.0.1/heimamm/public/${res.data.data.avatar}`;
+      this.name = res.data.data.name;
+    })
+  },
+  methods: {
+    // 退出
+    logout(){
+      this.$confirm("你要退出黑马面面系统吗?","警告",{
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "error"
+      }).then(()=>{
+        // 删除token
+        removeToken();
+        // 跳转登录页
+        this.$router.push("/login");
+      }).catch(()=>{
+        this.$message({
+          type:"info",
+          message:"爱你哟，ღ( ´･ᴗ･` )比心"
+        });
+      });
+    }
+  },
 };
 </script>
 
@@ -108,7 +163,7 @@ export default {
     // background-color: green;
   }
   .main {
-    background-color: red;
+    background-color: skyblue;
   }
 
   // 折叠菜单相关的类名

@@ -136,7 +136,10 @@
 // 已经全部抽取为方法了，不再需要axios
 
 // 导入抽取的api 方法;
-import { login, register, sendsms } from "../../../api/api.js";
+import { login, register, sendsms } from "../../api/api.js";
+
+// 导入 抽取的token 方法
+import { setToken } from "../../utils/token.js"
 
 export default {
   name: "login",
@@ -279,9 +282,17 @@ export default {
             password: this.loginForm.password,
             code: this.loginForm.captcha
           }).then(res => {
-            // window.console.log(res);
-            if (res.data.code == 200) {
+            window.console.log(res);
+            if (res.data.code === 200) {
+              // 成功
               this.$message.success("登录成功!");
+              // 跳转
+              this.$router.push("/index");
+              // 保存凭证
+              // window.localStorage.setItem('mmtoken',res.data.data.token);
+              // 调用工具函数 保存token
+              setToken(res.data.data.token);
+              // window.console.log(res);
             } else {
               this.$message.warning("登录失败!");
             }
@@ -393,15 +404,18 @@ export default {
           //   },
           //   withCredentials:true
           // })
-          register({
-            avatar: this.registerForm.avatar,
-            email: this.registerForm.email,
-            password: this.registerForm.password,
-            phone: this.registerForm.phone,
-            rcode: this.registerForm.rcode
-          }).then(res => {
+          register(
+            // {name:this.registerForm.name,
+            // avatar: this.registerForm.avatar,
+            // email: this.registerForm.email,
+            // password: this.registerForm.password,
+            // phone: this.registerForm.phone,
+            // rcode: this.registerForm.rcode}
+            this.registerForm
+          ).then(res => {
             window.console.log(res);
             this.$message.success("注册成功!");
+            this.showReg = false;
           });
         }else{
           // 验证失败
