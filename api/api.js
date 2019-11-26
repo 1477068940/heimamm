@@ -2,7 +2,9 @@
 import axios from 'axios';
 
 // 统一设置 基地址
-axios.defaults.baseURL = 'http://183.237.67.218:3002';
+// axios.defaults.baseURL = 'http://183.237.67.218:3002';
+// 本地服务基地址
+axios.defaults.baseURL = 'http://127.0.0.1/heimamm/public';
 
 // 统一设置 跨域携带cookie
 axios.defaults.withCredentials = true;

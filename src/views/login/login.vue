@@ -65,7 +65,7 @@
         <el-form-item label="头像" :label-width="formLabelWidth">
           <el-upload
             class="avatar-uploader"
-            action="http://183.237.67.218:3002/uploads"
+            action="http://127.0.0.1/heimamm/public/uploads"
             name="image"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
@@ -204,7 +204,7 @@ export default {
       },
 
       // 验证码地址
-      captchaSrc: "http://183.237.67.218:3002/captcha?type=login",
+      captchaSrc: "http://127.0.0.1/heimamm/public/captcha?type=login",
       // 是否勾选
       checked: true,
       // 是否显示注册框
@@ -240,7 +240,7 @@ export default {
       // 图片地址
       imageUrl: "",
       // 注册图形验证码 地址
-      regCaptcha: "http://183.237.67.218:3002/captcha?type=sendsms",
+      regCaptcha: "http://127.0.0.1/heimamm/public/captcha?type=sendsms",
       // 短信验证码按钮文本
       btnTxt: "获取短信验证码",
       // 按钮是否禁用
@@ -298,10 +298,10 @@ export default {
     changeCaptcha() {
       // this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login&${Math.random()}`;
       // 绝对不会重复  时间戳
-      this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login&${Date.now()}`;
+      this.captchaSrc = `http://127.0.0.1/heimamm/public/captcha?type=login&${Date.now()}`;
       // this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login`
-<<<<<<< HEAD
     },
+
     // 图片上传的方法
     // res 服务器返回的值
     // file 文件信息
@@ -325,7 +325,7 @@ export default {
     // 重新获取注册 图形验证码
     changeRegCaptcha() {
       // 修改地址
-      this.regCaptcha = `http://183.237.67.218:3002/captcha?type=sendsms&${Date.now()}`;
+      this.regCaptcha = `http://127.0.0.1/heimamm/public/captcha?type=sendsms&${Date.now()}`;
     },
     // 获取短信验证码
     getMessage() {
@@ -410,8 +410,6 @@ export default {
           return false;
         }
       });
-=======
->>>>>>> index
     }
   }
 };
