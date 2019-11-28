@@ -9,16 +9,17 @@
         <span class="title">黑马面面</span>
       </div>
       <div class="right">
-        <img class="avatar" :src="avatar" alt />
-        <span class="name">{{name}}</span>
+        <img class="avatar" :src="getIcon" alt />
+        <span class="name">{{getName}}</span>
         <el-button class="logout" @click="logout" size="mini" type="primary">退出</el-button>
       </div>
     </el-header>
     <el-container>
       <!-- 左侧导航区 -->
+      <!-- style="width:auto" 让宽度自适应 被内容撑开 -->
       <el-aside class="aside" style="width:auto">
         <el-menu 
-        default-active="1" 
+        default-active="5" 
         class="el-menu-vertical-demo" 
         :collapse="isCollapse"
         router
@@ -108,6 +109,8 @@ export default {
       }).then(()=>{
         // 删除token
         removeToken();
+        // 删除仓库的数据即可
+        this.$store.commit("CHANGEINFO",undefined);
         // 跳转登录页
         this.$router.push("/login");
       }).catch(()=>{
@@ -116,6 +119,21 @@ export default {
           message:"爱你哟，ღ( ´･ᴗ･` )比心"
         });
       });
+    }
+  },
+  // 计算属性
+  computed: {
+    // 获取名字
+    getName(){
+      return this.$store.state.userInfo.name
+    },
+    // 获取头像
+    getIcon(){
+      return `http://183.237.67.218:3002/${this.$store.state.userInfo.avatar}`
+    },
+    // 用户角色
+    getRole(){
+      return this.$store.state.userInfo.role;
     }
   },
 };

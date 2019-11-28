@@ -206,7 +206,9 @@ export default {
         ]
       },
 
-      // 验证码地址
+      // 验证码地址    
+      // process.env 方法可以直接获取 点出VUE_APP_BASEURL 基地址, 不需要导入
+      // captchaSrc: `${process.env.VUE_APP_BASEURL}/captcha?type=login`,
       captchaSrc: "http://183.237.67.218:3002/captcha?type=login",
       // captchaSrc: "http://127.0.0.1/heimamm/public/captcha?type=login",
       // 是否勾选
@@ -244,12 +246,15 @@ export default {
       // 图片地址
       imageUrl: "",
       // 注册图形验证码 地址
+      //  regCaptcha: `${process.env.VUE_APP_BASEURL}/captcha?type=sendsms`,
       regCaptcha: "http://183.237.67.218:3002/captcha?type=sendsms",
       // regCaptcha: "http://127.0.0.1/heimamm/public/captcha?type=sendsms",
       // 短信验证码按钮文本
       btnTxt: "获取短信验证码",
       // 按钮是否禁用
-      isDisabled: false
+      isDisabled: false,
+      // 文件上传地址
+      // action:process.env.VUE_APP_BASEURL+'/uploads'
     };
   },
 
@@ -313,6 +318,7 @@ export default {
     changeCaptcha() {
       // this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login&${Math.random()}`;
       // 绝对不会重复  时间戳
+      //  this.captchaSrc = `${process.env.VUE_APP_BASEURL}/captcha?type=login&${Date.now()}`;
       this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login&${Date.now()}`;
       // this.captchaSrc = `http://127.0.0.1/heimamm/public/captcha?type=login&${Date.now()}`;
       // this.captchaSrc = `http://183.237.67.218:3002/captcha?type=login`
@@ -341,6 +347,7 @@ export default {
     // 重新获取注册 图形验证码
     changeRegCaptcha() {
       // 修改地址
+      // his.regCaptcha = `${process.env.VUE_APP_BASEURL}/captcha?type=sendsms&${Date.now()}`;
       this.regCaptcha = `http://183.237.67.218:3002/captcha?type=sendsms&${Date.now()}`;
       // this.regCaptcha = `http://127.0.0.1/heimamm/public/captcha?type=sendsms&${Date.now()}`;
     },
