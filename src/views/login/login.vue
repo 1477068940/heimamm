@@ -288,13 +288,15 @@ export default {
             if (res.data.code === 200) {
               // 成功
               this.$message.success("登录成功!");
-              // 跳转
-              this.$router.push("/index");
               // 保存凭证
               // window.localStorage.setItem('mmtoken',res.data.data.token);
               // 调用工具函数 保存token
               setToken(res.data.data.token);
               // window.console.log(res);
+              // 保存用户信息 到仓库中
+              this.$store.commit("CHANGEINFO",res.data.data);
+              // 跳转
+              this.$router.push("/index");
             } else {
               this.$message.warning("登录失败!");
             }
