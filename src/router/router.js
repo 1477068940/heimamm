@@ -53,34 +53,34 @@ const routes = [
     {
         path: '/index', 
         component: index, 
-        meta: { roles: ['管路员', '老师', '学生'] 
+        meta: { roles: ['管理员', '老师', '学生'] 
     },
     // 嵌套路由
         children: [
             { 
                 path: 'subject', // 匹配的是 /index/subject
                 component: subject, 
-                meta: { roles: ['管路员', '老师', '学生'] } 
+                meta: { roles: ['管理员', '老师', '学生'] } 
             },
             { 
                 path: 'enterprise', // 匹配的是 /index/enterprise
                 component: enterprise, 
-                meta: { roles: ['管路员', '老师'] } 
+                meta: { roles: ['管理员', '老师'] } 
             },
             { 
                 path: 'dataRecord', // 匹配的是 /index/dataRecord
                 component: dataRecord, 
-                meta: { roles: ['管路员', '老师'] } 
+                meta: { roles: ['管理员', '老师'] } 
             },
             { 
                 path: 'userList', // 匹配的是 /index/userList
                 component: userList, 
-                meta: { roles: ['管路员'] } 
+                meta: { roles: ['管理员'] } 
             },
             { 
                 path: 'questionList', // 匹配的是 /index/questionList
                 component: questionList, 
-                meta: { roles: ['管路员', '老师'] } 
+                meta: { roles: ['管理员', '老师'] } 
             },
         ]
     }
