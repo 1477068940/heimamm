@@ -1,8 +1,25 @@
 html,body{
     height: 100%;
 }
-
+/* 如果要严谨，可以写一堆标签 */
 *{
     margin: 0;
     padding: 0;
+}
+
+
+/* 全局的弹框类似 */
+/* 直接覆盖 */
+.el-dialog {
+  width: 477px;
+}
+.el-dialog .el-dialog__header {
+  background-color: deepskyblue;
+  text-align: center;
+}
+.el-dialog .el-dialog__header .el-dialog__title {
+  color: white;
+}
+.el-dialog .el-input__inner {
+  width: 100%;
 }
