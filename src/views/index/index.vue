@@ -55,9 +55,9 @@
 
 <script>
 // 导入 获取token的函数
-import { getToken,removeToken } from '../../utils/token.js';
+import { removeToken } from '../../utils/token.js';
 // 导入 用户信息方法
-import { userInfo } from "../../api/api.js"
+// import { userInfo } from "../../api/api.js"
 export default {
   name: "index",
   data() {
@@ -71,32 +71,32 @@ export default {
   // 生命周期钩子
   beforeCreate() {
     // 判断token是否存在
-    const token = getToken();
-    if(!token){
-      // 提示用户
-      this.$message.error("未登录,请先登录!");
-      // 不存在 去登录页
-      this.$router.push("/login");
-    }
+    // const token = getToken();
+    // if(!token){
+    //   // 提示用户
+    //   this.$message.error("未登录,请先登录!");
+    //   // 不存在 去登录页
+    //   this.$router.push("/login");
+    // }
   },
   // 创建钩子
   created() {
-    userInfo().then(res=>{
-      // if(res.data.code===0){
-      //   // token有问题
-      //   this.$message.error("伪造token,你牛逼!");
-      //   // 删除token
-      //   removeToken();
-      //   // 去登录页
-      //   this.$router.push("/login");
-      //   return;
-      // }
-      // window.console.log(res);
-      // 保存到data中
-      this.avatar = `http://183.237.67.218:3002/${res.data.data.avatar}`;
-      // this.avatar = `http://127.0.0.1/heimamm/public/${res.data.data.avatar}`;
-      this.name = res.data.data.name;
-    })
+    // userInfo().then(res=>{
+    //   // if(res.data.code===0){
+    //   //   // token有问题
+    //   //   this.$message.error("伪造token,你牛逼!");
+    //   //   // 删除token
+    //   //   removeToken();
+    //   //   // 去登录页
+    //   //   this.$router.push("/login");
+    //   //   return;
+    //   // }
+    //   // window.console.log(res);
+    //   // 保存到data中
+    //   this.avatar = `http://183.237.67.218:3002/${res.data.data.avatar}`;
+    //   // this.avatar = `http://127.0.0.1/heimamm/public/${res.data.data.avatar}`;
+    //   this.name = res.data.data.name;
+    // })
   },
   methods: {
     // 退出
