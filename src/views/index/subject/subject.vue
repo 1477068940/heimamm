@@ -209,7 +209,7 @@ export default {
     // 页容量改变
     handleSizeChange(size) {
       // 保存起来
-      this.linit = size;
+      this.limit = size;
       // 修改页码
       // 去第一页
       this.page = 1;
@@ -219,7 +219,7 @@ export default {
     // 页码改变
     handleCurrentChange(current) {
       // 保存页码
-      this.linit = current;
+      this.limit = current;
       // 重新获取数据
       this.getList();
     },

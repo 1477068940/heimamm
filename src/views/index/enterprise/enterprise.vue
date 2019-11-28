@@ -37,7 +37,11 @@
         <el-table-column prop="name" label="企业名称"></el-table-column>
         <el-table-column prop="short_name" label="简称"></el-table-column>
         <el-table-column prop="creater" label="创建者"></el-table-column>
-        <el-table-column prop="create_time" label="创建日期"></el-table-column>
+        <el-table-column prop="create_time" label="创建日期">
+          <template slot-scope="scope">
+            {{ scope.row.create_time | formatTime_global}}
+          </template>
+        </el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
             <span v-if="scope.row.status === 0" class="red">禁用</span>
@@ -50,10 +54,8 @@
           <template slot-scope="scope">
             <!-- scope.row  点击获取当前 本行值 -->
             <el-button @click="showEdit(scope.row)" type="text">编辑</el-button>
-            <el-button
-              @click="status(scope.row)"
-              type="text"
-            >{{ scope.row.status === 1? "禁用" : "启用" }}</el-button>
+            <el-button @click="status(scope.row)" type="text">
+            {{ scope.row.status === 1? "禁用" : "启用" }}</el-button>
             <el-button @click="remove(scope.row)" type="text">删除</el-button>
           </template>
         </el-table-column>
@@ -61,13 +63,13 @@
       <!-- 分页器 -->
       <el-pagination
         background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :current-page="page"
         :page-sizes="pageSizes"
         :page-size="limit"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
       ></el-pagination>
     </el-card>
 
@@ -120,7 +122,7 @@
         </el-form-item>
         <!-- 下拉框的 所属领域 -->
         <el-form-item label="所属领域" class="more-width">
-          <el-select v-model="addForm.tag" palceholder="请选择状态">
+          <el-select v-model="editForm.tag" palceholder="请选择状态">
             <el-option label="金融" value="金融"></el-option>
             <el-option label="互联网" value="互联网"></el-option>
             <el-option label="电商" value="电商"></el-option>
@@ -226,7 +228,7 @@ export default {
     // 页容量改变
     handleSizeChange(size) {
       // 保存起来
-      this.linit = size;
+      this.limit = size;
       // 修改页码
       // 去第一页
       this.page = 1;
@@ -236,7 +238,7 @@ export default {
     // 页码改变
     handleCurrentChange(current) {
       // 保存页码
-      this.linit = current;
+      this.limit = current;
       // 重新获取数据
       this.getList();
     },
@@ -344,7 +346,7 @@ export default {
 </script>
 
 <style lang="less">
-.subject-container {
+.enterprise-container {
   .el-input__inner {
     width: 100px;
   }
