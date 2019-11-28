@@ -68,14 +68,14 @@
     <!-- 新增对话框 -->
     <el-dialog title="新增用户" :visible.sync="addFormVisible">
       <el-form :model="addForm" ref="addForm" :rules="addRules">
-        <el-form-item label="用户名" prop="rid" :label-width="formLabelWidth">
-          <el-input v-model="addForm.rid" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="name" :label-width="formLabelWidth">
+        <el-form-item label="用户名" prop="name" :label-width="formLabelWidth">
           <el-input v-model="addForm.name" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item label="邮箱" prop="email" :label-width="formLabelWidth">
+          <el-input v-model="addForm.email" autocomplete="off"></el-input>
+        </el-form-item>
         <el-form-item label="电话" :label-width="formLabelWidth">
-          <el-input v-model="addForm.short_name" autocomplete="off"></el-input>
+          <el-input v-model="addForm.phone" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="角色" :label-width="formLabelWidth">
           <!-- 表单元素数据的绑定 是v-model -->
